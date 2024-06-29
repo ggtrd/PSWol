@@ -94,7 +94,7 @@ Be-Sure-To-Start
 # Initialize variables for while below
 [int]$DateTimeSecCurrent = Get-Date -Format "ss"
 [int]$DateTimeSecPrevious = $DateTimeSecCurrent
-[int]$DateTimeSecDifference = 5
+[int]$DateTimeSecDifference = 30
 
 
 
