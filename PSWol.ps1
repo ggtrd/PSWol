@@ -94,7 +94,7 @@ Be-Sure-To-Start
 # Initialize variables for while below
 [int]$DateTimeSecCurrent = Get-Date -Format "ss"
 [int]$DateTimeSecPrevious = $DateTimeSecCurrent
-[int]$DateTimeSecDifference = 20
+[int]$DateTimeSecDifference = 5
 
 
 
@@ -123,16 +123,24 @@ while($true) {
 
         
     } else {
+
+        "$DateTime | $MacAddress ($IpAddress) found in ARP table" | Write-Host -ForegroundColor Green
+
+        # Making sure the ping works at least 1 time
+        Test-Connection $IpAddress -Delay 1 -Count 1 -Quiet | Out-Null
+
         # Check that the IP discovered from ARP table is reachable, if yes exit the script
-        if (Test-Connection $IpAddress -Delay 1 -Count 1 -ea 0 -Quiet) {
+        if (Test-Connection $IpAddress -Delay 1 -Count 1 -Quiet) {
             "$DateTime | $MacAddress ($IpAddress) reachable" | Write-Host -ForegroundColor Green
             
             break
         }
     }
 
+
     # Getting current second to be able to calculate when need to send new magic packets
     [int]$DateTimeSecCurrent = Get-Date -Format "ss"
+
 
     Start-Sleep -Seconds 2
 }
